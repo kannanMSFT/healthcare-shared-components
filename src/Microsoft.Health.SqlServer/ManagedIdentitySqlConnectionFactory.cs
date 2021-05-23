@@ -11,12 +11,21 @@ using Microsoft.Data.SqlClient;
 
 namespace Microsoft.Health.SqlServer
 {
+    /// <summary>
+    /// ManagedIdentitySqlConnectionFactory.
+    /// </summary>
     public class ManagedIdentitySqlConnectionFactory : ISqlConnectionFactory
     {
         private readonly ISqlConnectionStringProvider _sqlConnectionStringProvider;
         private readonly IAccessTokenHandler _accessTokenHandler;
         private readonly string _azureResource = "https://database.windows.net/";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ManagedIdentitySqlConnectionFactory"/> class.
+        /// ManagedIdentitySqlConnectionFactory constructor.
+        /// </summary>
+        /// <param name="sqlConnectionStringProvider">ISqlConnectionStringProvider.</param>
+        /// <param name="accessTokenHandler">IAccessTokenHandler.</param>
         public ManagedIdentitySqlConnectionFactory(ISqlConnectionStringProvider sqlConnectionStringProvider, IAccessTokenHandler accessTokenHandler)
         {
             EnsureArg.IsNotNull(sqlConnectionStringProvider, nameof(sqlConnectionStringProvider));

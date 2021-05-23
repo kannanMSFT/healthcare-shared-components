@@ -5,8 +5,14 @@
 
 namespace Microsoft.Health.SqlServer.Configs
 {
+    /// <summary>
+    /// SqlServerDataStoreConfiguration.
+    /// </summary>
     public class SqlServerDataStoreConfiguration
     {
+        /// <summary>
+        /// Connection string to the SQL server.
+        /// </summary>
         public string ConnectionString { get; set; }
 
         /// <summary>

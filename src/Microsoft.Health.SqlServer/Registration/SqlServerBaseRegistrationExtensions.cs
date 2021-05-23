@@ -17,8 +17,19 @@ using Microsoft.Health.SqlServer.Features.Storage;
 
 namespace Microsoft.Health.SqlServer.Registration
 {
+    /// <summary>
+    /// SqlServerBaseRegistrationExtensions.
+    /// </summary>
     public static class SqlServerBaseRegistrationExtensions
     {
+        /// <summary>
+        /// Register types with DI.
+        /// </summary>
+        /// <param name="services">Services.</param>
+        /// <param name="configurationRoot">IConfiguration.</param>
+        /// <param name="configureAction">Action of SqlServerDataStoreConfiguration.</param>
+        /// <typeparam name="TSchemaVersionEnum">Schema Version Enum.</typeparam>
+        /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddSqlServerBase<TSchemaVersionEnum>(
             this IServiceCollection services,
             IConfiguration configurationRoot,
