@@ -20,4 +20,12 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Events\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Memory.Data" Version="1.0.2" />
+  </ItemGroup>
+
 </Project>
