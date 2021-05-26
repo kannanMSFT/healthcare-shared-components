@@ -14,10 +14,19 @@ namespace Microsoft.Health.Core.Features.Events
     public class EventData : IEvent
     {
         /// <inheritdoc />
+        public string Topic { get; set; }
+
+        /// <inheritdoc />
         public string Subject { get; set; }
 
         /// <inheritdoc />
         public string EventType { get; set; }
+
+        /// <inheritdoc />
+        public DateTimeOffset EventTime { get; set; }
+
+        /// <inheritdoc />
+        public string Id { get; set; }
 
         /// <inheritdoc />
         public string DataVersion { get; set; }
