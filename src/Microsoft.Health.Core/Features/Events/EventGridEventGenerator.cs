@@ -21,10 +21,13 @@ namespace Microsoft.Health.Core.Features.Events
     /// EventGridEventGenerator.
     /// </summary>
     /// <typeparam name="T">T of Type IEvent.</typeparam>
-    public class EventGridEventGenerator<T> : ISink<T>
+    public class EventGridEventGenerator<T> : ISink<T>, IDisposable
         where T : IEvent
     {
         private readonly EventGridPublisherClient _client;
+        private readonly HttpClientHandler _httpClientHandler;
+        private readonly HttpClient _httpClient;
+        private bool _isDisposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventGridEventGenerator{T}"/> class.
@@ -45,16 +48,13 @@ namespace Microsoft.Health.Core.Features.Events
         /// <param name="publisherCertificate">publisher certificate.</param>
         public EventGridEventGenerator(Uri endpoint, X509Certificate publisherCertificate)
         {
-#pragma warning disable CA2000 // Dispose objects before losing scope
-            var handler = new HttpClientHandler();
-#pragma warning restore CA2000 // Dispose objects before losing scope
-            handler.ClientCertificates.Add(publisherCertificate);
-
+            _httpClientHandler = new HttpClientHandler();
+            _httpClientHandler.CheckCertificateRevocationList = true;
+            _httpClientHandler.ClientCertificates.Add(publisherCertificate);
+            _httpClient = new HttpClient(_httpClientHandler);
             var options = new EventGridPublisherClientOptions
             {
-#pragma warning disable CA2000 // Dispose objects before losing scope
-                Transport = new HttpClientTransport(new HttpClient(handler)),
-#pragma warning restore CA2000 // Dispose objects before losing scope
+                Transport = new HttpClientTransport(_httpClient),
             };
             _client = new EventGridPublisherClient(endpoint, new AzureKeyCredential("AzureSystemPublisher"), options);
         }
@@ -95,6 +95,35 @@ namespace Microsoft.Health.Core.Features.Events
             }
 
             await SendEventsAsync(events);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (_httpClientHandler != null)
+                {
+                    _httpClientHandler.Dispose();
+                }
+
+                if (_httpClient != null)
+                {
+                    _httpClient.Dispose();
+                }
+            }
+
+            _isDisposed = true;
         }
     }
 }
