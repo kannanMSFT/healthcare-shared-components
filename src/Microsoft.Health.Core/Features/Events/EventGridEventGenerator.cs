@@ -21,7 +21,7 @@ namespace Microsoft.Health.Core.Features.Events
     /// EventGridEventGenerator.
     /// </summary>
     /// <typeparam name="T">T of Type IEvent.</typeparam>
-    public class EventGridEventGenerator<T> : ISink<T>, IDisposable
+    public class EventGridEventGenerator<T> : ISink<T>
         where T : IEvent
     {
         private readonly EventGridPublisherClient _client;

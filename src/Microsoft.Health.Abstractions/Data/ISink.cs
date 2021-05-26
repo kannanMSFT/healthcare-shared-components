@@ -3,6 +3,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
 // -------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace Microsoft.Health.Abstractions.Data
     /// Generic Sink for writing data to any destination.
     /// </summary>
     /// <typeparam name="T">Generic data type T to write</typeparam>
-    public interface ISink<in T>
+    public interface ISink<in T> : IDisposable
     {
         /// <summary>
         /// Write data to sink.
