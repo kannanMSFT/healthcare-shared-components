@@ -72,10 +72,11 @@ namespace Microsoft.Health.Core.Features.Events
         /// <inheritdoc />
         public async Task WriteAsync(T data)
         {
-            var eventGridEvent = new EventGridEvent(data.Subject, data.EventType, data.DataVersion, data.Data);
-            eventGridEvent.Topic = data.Topic;
-            eventGridEvent.EventTime = data.EventTime;
-            eventGridEvent.Id = data.Id;
+            var eventGridEvent = new EventGridEvent(data.Subject, data.EventType, data.DataVersion, data.Data)
+            {
+                Topic = data.Topic, EventTime = data.EventTime, Id = data.Id,
+            };
+
             await SendEventAsync(eventGridEvent);
         }
 
